@@ -12,7 +12,7 @@ const errorMiddleware = require("./middlewares/errorMiddleware");
 const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
-
+  "https://issue-tracker-git-test-react-query-88c635-sukeshachar1489-3630.vercel.app",
   "https://issue-tracker-dun-kappa.vercel.app",
   "https://issue-tracker-g5vj77wac-sukeshachar1489-3630.vercel.app",
 ];

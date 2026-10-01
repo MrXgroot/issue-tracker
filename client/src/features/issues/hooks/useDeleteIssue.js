@@ -18,13 +18,26 @@ export function useDeleteIssue() {
       });
 
       queryClient.setQueriesData(
-        { queryKey: issueQueryKeys.all },
+        {
+          queryKey: issueQueryKeys.all,
+        },
         (oldData) => {
-          if (!Array.isArray(oldData)) {
-            return oldData;
+          if (!oldData) return oldData;
+
+          // If cache is directly an array
+          if (Array.isArray(oldData)) {
+            return oldData.filter((issue) => issue._id !== issueId);
           }
 
-          return oldData.filter((issue) => issue.id !== issueId);
+          // If cache is { data: [...] }
+          if (Array.isArray(oldData.data)) {
+            return {
+              ...oldData,
+              data: oldData.data.filter((issue) => issue._id !== issueId),
+            };
+          }
+
+          return oldData;
         },
       );
 
@@ -39,7 +52,7 @@ export function useDeleteIssue() {
       });
     },
 
-    onSettled(error, issueId) {
+    onSuccess(_data, issueId) {
       queryClient.invalidateQueries({
         queryKey: issueQueryKeys.all,
       });
