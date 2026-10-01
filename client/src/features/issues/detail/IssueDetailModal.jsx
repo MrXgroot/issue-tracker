@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
-import { useIssue, useUpdateIssue, useDeleteIssue } from "../hooks/useIssues";
+import { useIssue } from "..";
+import { useUpdateIssue } from "..";
+import { useDeleteIssue } from "..";
 import { useUsers } from "../../users/hooks/useUsers";
 import {
   useComments,
   useCreateComment,
   useDeleteComment,
-} from "../../comments/hooks/useComments";
+} from "../../comments";
 import { useAuth } from "../../auth/context/AuthContext";
 import { X, Trash2, Loader2 } from "lucide-react";
 
-export default function IssueDetailModal({ issueId, onClose }) {
+export function IssueDetailModal({ issueId, onClose }) {
   const { user: currentUser } = useAuth();
 
   const [commentText, setCommentText] = useState("");
@@ -70,7 +72,7 @@ export default function IssueDetailModal({ issueId, onClose }) {
         onSuccess: () => {
           setIsEditing(false);
         },
-      }
+      },
     );
   }
 
@@ -83,7 +85,7 @@ export default function IssueDetailModal({ issueId, onClose }) {
         onSuccess: () => {
           setCommentText("");
         },
-      }
+      },
     );
   }
 
@@ -122,7 +124,7 @@ export default function IssueDetailModal({ issueId, onClose }) {
             {issue && (
               <span
                 className={`px-2 py-0.5 text-xs font-medium rounded-md border ${getPriorityBadge(
-                  issue.priority
+                  issue.priority,
                 )}`}
               >
                 {issue.priority} Priority
@@ -157,7 +159,9 @@ export default function IssueDetailModal({ issueId, onClose }) {
             <>
               {/* Status Selector Bar */}
               <div className="bg-gray-50 p-3 rounded-lg border border-gray-100 flex flex-wrap items-center justify-between gap-3">
-                <span className="text-xs font-medium text-gray-500">Status</span>
+                <span className="text-xs font-medium text-gray-500">
+                  Status
+                </span>
                 <div className="flex items-center gap-1.5">
                   {["Open", "In Progress", "Closed"].map((st) => {
                     const isActive = issue.status === st;
@@ -200,13 +204,17 @@ export default function IssueDetailModal({ issueId, onClose }) {
 
                   <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-100 text-xs">
                     <div>
-                      <span className="text-gray-400 block mb-0.5">Assignee</span>
+                      <span className="text-gray-400 block mb-0.5">
+                        Assignee
+                      </span>
                       <span className="font-medium text-gray-800">
                         {issue.assignee?.name || "Unassigned"}
                       </span>
                     </div>
                     <div>
-                      <span className="text-gray-400 block mb-0.5">Created By</span>
+                      <span className="text-gray-400 block mb-0.5">
+                        Created By
+                      </span>
                       <span className="font-medium text-gray-800">
                         {issue.createdBy?.name || "Unknown"}
                       </span>
@@ -214,17 +222,25 @@ export default function IssueDetailModal({ issueId, onClose }) {
                   </div>
                 </div>
               ) : (
-                <form onSubmit={handleSaveEdit} className="space-y-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <form
+                  onSubmit={handleSaveEdit}
+                  className="space-y-4 bg-gray-50 p-4 rounded-lg border border-gray-200"
+                >
                   <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wider">
                     Edit Issue
                   </h3>
                   <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Title</label>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">
+                      Title
+                    </label>
                     <input
                       type="text"
                       value={editForm.title}
                       onChange={(e) =>
-                        setEditForm((prev) => ({ ...prev, title: e.target.value }))
+                        setEditForm((prev) => ({
+                          ...prev,
+                          title: e.target.value,
+                        }))
                       }
                       className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:border-gray-900 bg-white"
                       required
@@ -365,7 +381,9 @@ export default function IssueDetailModal({ issueId, onClose }) {
                   />
                   <button
                     type="submit"
-                    disabled={addCommentMutation.isPending || !commentText.trim()}
+                    disabled={
+                      addCommentMutation.isPending || !commentText.trim()
+                    }
                     className="px-3 py-2 bg-gray-900 text-white text-xs font-medium rounded-lg hover:bg-gray-800 disabled:opacity-50 transition flex items-center gap-1 shrink-0"
                   >
                     {addCommentMutation.isPending ? (
@@ -378,7 +396,9 @@ export default function IssueDetailModal({ issueId, onClose }) {
               </div>
             </>
           ) : (
-            <p className="text-center text-sm text-gray-500">Issue not found.</p>
+            <p className="text-center text-sm text-gray-500">
+              Issue not found.
+            </p>
           )}
         </div>
       </div>

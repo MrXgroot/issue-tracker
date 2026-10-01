@@ -1,11 +1,11 @@
-import { IssueTableToolbar } from "./IssueTableToolbar";
-import { IssueTableRow } from "./IssueTableRow";
+import { IssueTableToolbar } from "./components/IssueTableToolbar";
+import { IssueTableRow } from "./components/IssueTableRow";
 import {
   TableLoadingState,
   TableErrorState,
   TableEmptyState,
-} from "./IssueTableStates";
-import { IssueTableFooter } from "./IssueTableFooter";
+} from "./components/IssueTableStates";
+import { IssueTableFooter } from "./components/IssueTableFooter";
 
 export function IssueTable({
   issues = [],
