@@ -1,200 +1,129 @@
-# API Contract
+# API Documentation
 
-Base URL:
+## Base URL
 
-/api/v1
+### Local Development
 
----
+```text
+http://localhost:5000/api/v1
+```
 
-# Authentication
+### Production
 
-## Register
+```text
+https://issue-tracker-d4lv.onrender.com/api/v1
+```
 
+## Authentication
+
+### Register
+
+```http
 POST /auth/register
+```
 
-Body:
+Creates a new user account.
 
-{
-"name": "Alex Lee",
-"email": "alex@example.com",
-"password": "password123"
-}
+### Login
 
-Response:
-
-{
-"success": true,
-"data": {
-"user": {
-"id": "...",
-"name": "Alex Lee",
-"email": "alex@example.com",
-"role": "USER"
-},
-"token": "..."
-}
-}
-
----
-
-## Login
-
+```http
 POST /auth/login
+```
 
-Body:
+Authenticates a user and returns authentication information.
 
-{
-"email": "alex@example.com",
-"password": "password123"
-}
+## Issues
 
-Response:
+### Get Issues
 
-{
-"success": true,
-"data": {
-"user": {
-"id": "...",
-"name": "Alex Lee",
-"email": "alex@example.com",
-"role": "USER"
-},
-"token": "..."
-}
-}
-
----
-
-# Users
-
-## Get users
-
-GET /users
-
-Used for issue assignment.
-
----
-
-## Get user
-
-GET /users/:id
-
----
-
-# Issues
-
-## Create issue
-
-POST /issues
-
-Authentication required.
-
-Body:
-
-{
-"title": "Fix login bug",
-"description": "Login fails when token expires",
-"priority": "High",
-"status": "Open",
-"assignee": "USER_ID"
-}
-
----
-
-## Get issues
-
+```http
 GET /issues
+```
 
-Optional query parameters:
+Returns issues available to the authenticated user.
 
-?status=Open
+### Create Issue
 
-?status=In%20Progress
+```http
+POST /issues
+```
 
-?status=Closed
+Creates a new issue.
 
-?assignedTo=USER_ID
+### Update Issue
 
-?search=login
-
-Parameters can be combined.
-
----
-
-## Get issue
-
-GET /issues/:id
-
----
-
-## Update issue
-
+```http
 PATCH /issues/:id
+```
 
-Possible fields:
+Updates an existing issue.
 
-{
-"title": "...",
-"description": "...",
-"status": "In Progress",
-"priority": "High",
-"assignee": "USER_ID"
-}
+### Delete Issue
 
----
-
-## Delete issue
-
+```http
 DELETE /issues/:id
+```
 
----
+Deletes an existing issue.
 
-# Dashboard
+### Dashboard Summary
 
+```http
 GET /issues/dashboard-summary
+```
 
-Expected response:
+Returns issue counts and dashboard summary information.
 
-{
-"success": true,
-"data": {
-"total": 10,
-"open": 4,
-"inProgress": 3,
-"closed": 3
-}
-}
+## Comments
 
----
+### Get Issue Comments
 
-# Comments
-
-## Get comments
-
+```http
 GET /issues/:issueId/comments
+```
 
----
+Returns comments belonging to an issue.
 
-## Add comment
+### Create Comment
 
+```http
 POST /issues/:issueId/comments
+```
 
-Body:
+Creates a comment for an issue.
 
+Request body:
+
+```json
 {
-"text": "Confirmed in staging."
+  "text": "Comment text"
 }
+```
 
----
+### Delete Comment
 
-## Delete comment
-
+```http
 DELETE /comments/:id
+```
 
----
+Deletes a comment.
 
-# Authentication
+## Users
 
-Protected endpoints require:
+User endpoints provide the information required for issue assignment and user selection.
 
-Authorization: Bearer <JWT>
+## Authentication
+
+Protected endpoints require authentication according to the application's authentication implementation.
+
+## Error Responses
+
+The API returns appropriate HTTP status codes for successful requests, validation errors, authentication failures, missing resources, and server errors.
+
+Example:
+
+```json
+{
+  "message": "Error message"
+}
+```
