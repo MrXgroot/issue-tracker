@@ -18,7 +18,7 @@ export function useCreateIssue() {
       });
 
       const optimisticIssue = {
-        id: `optimistic-${Date.now()}`,
+        _id: `optimistic-${Date.now()}`,
         ...newIssue,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -26,13 +26,24 @@ export function useCreateIssue() {
       };
 
       queryClient.setQueriesData(
-        { queryKey: issueQueryKeys.all },
+        {
+          queryKey: issueQueryKeys.all,
+        },
         (oldData) => {
-          if (!Array.isArray(oldData)) {
-            return oldData;
+          if (!oldData) return oldData;
+
+          if (Array.isArray(oldData)) {
+            return [optimisticIssue, ...oldData];
           }
 
-          return [optimisticIssue, ...oldData];
+          if (Array.isArray(oldData.data)) {
+            return {
+              ...oldData,
+              data: [optimisticIssue, ...oldData.data],
+            };
+          }
+
+          return oldData;
         },
       );
 
@@ -47,7 +58,7 @@ export function useCreateIssue() {
       });
     },
 
-    onSettled() {
+    onSuccess() {
       queryClient.invalidateQueries({
         queryKey: issueQueryKeys.all,
       });
