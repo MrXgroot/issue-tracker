@@ -18,17 +18,17 @@ export function useCreateComment(issueId) {
       );
 
       const optimisticComment = {
-        id: `optimistic-${Date.now()}`,
+        _id: `optimistic-${Date.now()}`,
         ...newComment,
         issueId,
         createdAt: new Date().toISOString(),
         _optimistic: true,
       };
 
-      queryClient.setQueryData(
-        commentQueryKeys.byIssue(issueId),
-        (oldComments = []) => [...oldComments, optimisticComment],
-      );
+      queryClient.setQueryData(commentQueryKeys.byIssue(issueId), (old) => ({
+        ...(old ?? {}),
+        data: [...(old?.data ?? []), optimisticComment],
+      }));
 
       return {
         previousComments,

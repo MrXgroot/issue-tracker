@@ -17,11 +17,10 @@ export function useDeleteComment(issueId) {
         commentQueryKeys.byIssue(issueId),
       );
 
-      queryClient.setQueryData(
-        commentQueryKeys.byIssue(issueId),
-        (oldComments = []) =>
-          oldComments.filter((comment) => comment.id !== commentId),
-      );
+      queryClient.setQueryData(commentQueryKeys.byIssue(issueId), (old) => ({
+        ...(old ?? {}),
+        data: (old?.data ?? []).filter((comment) => comment._id !== commentId),
+      }));
 
       return {
         previousComments,
