@@ -12,10 +12,9 @@ import {
   useDashboardSummary,
   useIssues,
   useDeleteIssue,
-} from "../features/issues/hooks/useIssues";
+} from "../features/issues";
 
-import IssueTable from "../features/issues/components/IssueTable";
-
+import { IssueTable } from "../features/issues/list/IssueTable";
 const summaryCards = [
   {
     key: "total",

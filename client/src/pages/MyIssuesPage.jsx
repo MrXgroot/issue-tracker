@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { useIssues, useDeleteIssue } from "../features/issues/hooks/useIssues";
+import { useIssues, useDeleteIssue } from "../features/issues";
 import { useAuth } from "../features/auth/context/AuthContext";
-import IssueTable from "../features/issues/components/IssueTable";
+import IssueTable from "../features/issues/list/IssueTable";
 
 export default function MyIssuesPage() {
   const { user } = useAuth();
@@ -21,12 +21,7 @@ export default function MyIssuesPage() {
     filters.search = searchQuery.trim();
   }
 
-  const {
-    data: issuesData,
-    isLoading,
-    isError,
-    refetch,
-  } = useIssues(filters);
+  const { data: issuesData, isLoading, isError, refetch } = useIssues(filters);
   const issues = issuesData?.data || [];
 
   const deleteMutation = useDeleteIssue();
