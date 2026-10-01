@@ -3,8 +3,8 @@ import { Outlet, useLocation } from "react-router-dom";
 import { Menu, Plus } from "lucide-react";
 
 import Sidebar from "./Sidebar";
-import { CreateIssueModal } from "../../features/issues";
-import { IssueDetailModal } from "../../features/issues";
+import { CreateIssueModal, IssueDetailModal } from "../../features/issues";
+
 const pageHeaders = {
   "/dashboard": {
     title: "Dashboard",
@@ -61,12 +61,13 @@ export default function AppLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
       {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
 
       {/* Main application area */}
-      <div className="flex min-h-screen flex-1 flex-col md:ml-64">
+      {/* Sidebar is w-72, so main content also starts after 72 */}
+      <div className="flex min-h-screen flex-1 flex-col md:ml-72">
         {/* Header */}
         <header className="sticky top-0 z-30 h-16 border-b border-slate-200 bg-white px-4 shadow-sm md:px-8">
           <div className="flex h-full items-center justify-between">
@@ -102,7 +103,6 @@ export default function AppLayout() {
                 className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700"
               >
                 <Plus className="h-4 w-4" />
-
                 <span>New Issue</span>
               </button>
             </div>
