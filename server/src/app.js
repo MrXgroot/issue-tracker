@@ -11,12 +11,13 @@ const errorMiddleware = require("./middlewares/errorMiddleware");
 
 const app = express();
 const allowedOrigins = [
+  "http://localhost:5173",
+
   "https://issue-tracker-dun-kappa.vercel.app",
   "https://issue-tracker-g5vj77wac-sukeshachar1489-3630.vercel.app",
 ];
 
-//vercel changing url again and again
-// todo: remove the hardcoded urls
+// TODO: remove hardcoded URLs and use environment variables
 app.use(
   cors({
     origin: allowedOrigins,
