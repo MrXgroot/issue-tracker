@@ -3,9 +3,8 @@ import { Outlet, useLocation } from "react-router-dom";
 import { Menu, Plus } from "lucide-react";
 
 import Sidebar from "./Sidebar";
-import CreateIssueModal from "../../features/issues/components/CreateIssueModal";
-import IssueDetailModal from "../../features/issues/components/IssueDetailModal";
-
+import { CreateIssueModal } from "../../features/issues";
+import { IssueDetailModal } from "../../features/issues";
 const pageHeaders = {
   "/dashboard": {
     title: "Dashboard",
