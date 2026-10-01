@@ -10,10 +10,16 @@ const notFoundMiddleware = require("./middlewares/notFoundMiddleware");
 const errorMiddleware = require("./middlewares/errorMiddleware");
 
 const app = express();
-console.log("CLIENT_URL:", process.env.CLIENT_URL);
+const allowedOrigins = [
+  "https://issue-tracker-dun-kappa.vercel.app",
+  "https://issue-tracker-g5vj77wac-sukeshachar1489-3630.vercel.app",
+];
+
+//vercel changing url again and again
+// todo: remove the hardcoded urls
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: allowedOrigins,
     credentials: true,
   }),
 );
